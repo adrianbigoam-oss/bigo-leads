@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agency Leads — BIGO Live PH</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f4f4f2; color: #1a1a18; padding: 2rem; }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+
+  .header { margin-bottom: 1.5rem; }
+  .header h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .header p { font-size: 13px; color: #6b6b68; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .stat { background: #fff; border-radius: 8px; padding: 12px 14px; border: 0.5px solid #d3d1c7; }
+  .stat-label { font-size: 11px; color: #888780; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .stat-value { font-size: 22px; font-weight: 600; }
+
+  .filters { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .filter-btn { font-size: 12px; padding: 5px 14px; border-radius: 20px; border: 0.5px solid #d3d1c7; background: #fff; color: #6b6b68; cursor: pointer; transition: all 0.15s; }
+  .filter-btn.active, .filter-btn:hover { background: #1a1a18; color: #fff; border-color: #1a1a18; }
+
+  .table-wrap { background: #fff; border-radius: 12px; border: 0.5px solid #d3d1c7; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; font-size: 11px; font-weight: 600; color: #888780; text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 14px; border-bottom: 0.5px solid #d3d1c7; background: #fafaf8; white-space: nowrap; }
+  td { padding: 11px 14px; border-bottom: 0.5px solid #ebebea; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f9f9f7; }
+
+  .name { font-weight: 600; font-size: 13px; }
+  .link { color: #1155cc; font-size: 12px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; text-decoration: none; }
+  .link:hover { text-decoration: underline; }
+  .email { font-size: 12px; color: #1a1a18; }
+  .phone { font-size: 12px; color: #6b6b68; margin-top: 2px; }
+  .telegram { font-size: 12px; color: #0088cc; margin-top: 2px; }
+
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+  .badge-tiktok { background: #e8f5fd; color: #0077b5; }
+  .badge-fb { background: #e8edf8; color: #1a3c8f; }
+  .badge-both { background: #edf7ed; color: #1e6e1e; }
+
+  .contact-cell { min-width: 200px; }
+  .no-contact { color: #b0afa8; font-size: 12px; font-style: italic; }
+
+  .footer { margin-top: 1.5rem; font-size: 12px; color: #888780; }
+
+  @media (max-width: 600px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    body { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>Agency Leads</h1>
+    <p>BIGO Live Philippines — Partnership Outreach</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Total Agencies</div><div class="stat-value">14</div></div>
+    <div class="stat"><div class="stat-label">With Email</div><div class="stat-value">13</div></div>
+    <div class="stat"><div class="stat-label">With Phone</div><div class="stat-value">5</div></div>
+    <div class="stat"><div class="stat-label">With Telegram</div><div class="stat-value">3</div></div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filter('all', this)">All</button>
+    <button class="filter-btn" onclick="filter('email', this)">Has Email</button>
+    <button class="filter-btn" onclick="filter('phone', this)">Has Phone</button>
+    <button class="filter-btn" onclick="filter('telegram', this)">Has Telegram</button>
+    <button class="filter-btn" onclick="filter('tiktok', this)">TikTok</button>
+    <button class="filter-btn" onclick="filter('facebook', this)">Facebook</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%">Agency Name</th>
+          <th style="width:14%">TikTok</th>
+          <th style="width:14%">Facebook</th>
+          <th style="width:10%">Website</th>
+          <th style="width:25%">Contact Details</th>
+          <th style="width:10%">Platform</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div class="footer">Generated for BIGO Live Philippines — Agency Partnership Team</div>
+</div>
+
+<script>
+const agencies = [
+  {
+    name: "Lunaria",
+    tiktok: "tiktok.com/@spicegirls8888",
+    facebook: "",
+    website: "",
+    email: "lunariaph12@gmail.com",
+    phone: "0961 9 368 508",
+    telegram: ""
+  },
+  {
+    name: "S1M-H",
+    tiktok: "tiktok.com/@s1mh.live",
+    facebook: "",
+    website: "",
+    email: "20domenickaton@gmail.com",
+    phone: "",
+    telegram: ""
+  },
+  {
+    name: "Soulspark Talent Management",
+    tiktok: "",
+    facebook: "facebook.com/Soulsparkph28",
+    website: "",
+    email: "skysparkleph03@gmail.com",
+    phone: "0906 006 2864",
+    telegram: ""
+  },
+  {
+    name: "UniverStar Inc.",
+    tiktok: "tiktok.com/@universtar.inc",
+    facebook: "",
+    website: "universtarinc.com",
+    email: "universtar.inc@gmail.com",
+    phone: "044 617 4504",
+    telegram: ""
+  },
+  {
+    name: "FirstOne Entertainment",
+    tiktok: "tiktok.com/@firstone_ent",
+    facebook: "",
+    website: "",
+    email: "mcn@firstone-ent.biz",
+    phone: "",
+    telegram: ""
+  },
+  {
+    name: "NextStage Entertainment",
+    tiktok: "tiktok.com/@nextstage_entertainment",
+    facebook: "",
+    website: "",
+    email: "hrstephnextstage@gmail.com",
+    phone: "",
+    telegram: "@hrstephns"
+  },
+  {
+    name: "Jumping Wings Media PH",
+    tiktok: "tiktok.com/@jumpingwingmediaph",
+    facebook: "",
+    website: "",
+    email: "jumpingwingsmedia.7@gmail.com",
+    phone: "",
+    telegram: ""
+  },
+  {
+    name: "BBCI - Culture Talent Studio",
+    tiktok: "tiktok.com/@culturetalentstudio",
+    facebook: "",
+    website: "",
+    email: "boringbusiness28@gmail.com",
+    phone: "",
+    telegram: "@boringBBCI"
+  },
+  {
+    name: "ILLEA PH",
+    tiktok: "tiktok.com/@illeaph",
+    facebook: "",
+    website: "",
+    email: "illeaaaph@gmail.com / familleaaa222@gmail.com",
+    phone: "",
+    telegram: ""
+  },
+  {
+    name: "Glowstream Corp",
+    tiktok: "tiktok.com/@glowstreamcorp_1",
+    facebook: "facebook.com/profile.php?id=61567656056879",
+    website: "",
+    email: "glowstream.corp@gmail.com",
+    phone: "0967 455 0819",
+    telegram: ""
+  },
+  {
+    name: "Solid D.L Alliance",
+    tiktok: "",
+    facebook: "facebook.com/profile.php?id=61591070235539",
+    website: "",
+    email: "soliddlalliance@gmail.com",
+    phone: "0993 653 9779",
+    telegram: ""
+  },
+  {
+    name: "TIP Talents Guild",
+    tiktok: "",
+    facebook: "facebook.com/tiptalentsguildd",
+    website: "",
+    email: "talentsguild-sc.qc@tip.edu.ph",
+    phone: "",
+    telegram: ""
+  },
+  {
+    name: "Butterfly Dance Media",
+    tiktok: "",
+    facebook: "facebook.com/bdmrcmnt",
+    website: "",
+    email: "",
+    phone: "",
+    telegram: "@DIUTNSY"
+  },
+  {
+    name: "Black Emperors",
+    tiktok: "tiktok.com/@belabels.ph",
+    facebook: "facebook.com/BlackEmperors.BE",
+    website: "",
+    email: "black00emperors@gmail.com",
+    phone: "",
+    telegram: ""
+  }
+];
+
+function platform(a) {
+  if (a.tiktok && a.facebook) return "both";
+  if (a.tiktok) return "tiktok";
+  if (a.facebook) return "facebook";
+  return "";
+}
+
+function render(data) {
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = data.map(a => {
+    const p = platform(a);
+    const pb = p === "both"
+      ? '<span class="badge badge-both">TikTok + FB</span>'
+      : p === "tiktok"
+      ? '<span class="badge badge-tiktok">TikTok</span>'
+      : p === "facebook"
+      ? '<span class="badge badge-fb">Facebook</span>'
+      : '<span class="no-contact">None</span>';
+
+    const tiktokLink = a.tiktok ? `<a class="link" href="https://${a.tiktok}" target="_blank">${a.tiktok.replace('tiktok.com/', '')}</a>` : '<span class="no-contact">N/A</span>';
+    const fbLink = a.facebook ? `<a class="link" href="https://${a.facebook}" target="_blank">Facebook page</a>` : '<span class="no-contact">N/A</span>';
+    const webLink = a.website ? `<a class="link" href="https://${a.website}" target="_blank">${a.website}</a>` : '<span class="no-contact">N/A</span>';
+
+    const contactParts = [];
+    if (a.email) contactParts.push(`<div class="email">✉ ${a.email}</div>`);
+    if (a.phone) contactParts.push(`<div class="phone">📞 ${a.phone}</div>`);
+    if (a.telegram) contactParts.push(`<div class="telegram">✈ ${a.telegram}</div>`);
+    const contact = contactParts.length ? contactParts.join('') : '<span class="no-contact">No contact listed</span>';
+
+    return `<tr data-platform="${p}" data-email="${a.email ? 1 : 0}" data-phone="${a.phone ? 1 : 0}" data-telegram="${a.telegram ? 1 : 0}">
+      <td class="name">${a.name}</td>
+      <td>${tiktokLink}</td>
+      <td>${fbLink}</td>
+      <td>${webLink}</td>
+      <td class="contact-cell">${contact}</td>
+      <td>${pb}</td>
+    </tr>`;
+  }).join("");
+}
+
+function filter(type, btn) {
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  document.querySelectorAll("#tbody tr").forEach(r => {
+    let show = true;
+    if (type === "email") show = r.dataset.email === "1";
+    if (type === "phone") show = r.dataset.phone === "1";
+    if (type === "telegram") show = r.dataset.telegram === "1";
+    if (type === "tiktok") show = r.dataset.platform === "tiktok" || r.dataset.platform === "both";
+    if (type === "facebook") show = r.dataset.platform === "facebook" || r.dataset.platform === "both";
+    r.style.display = show ? "" : "none";
+  });
+}
+
+render(agencies);
+</script>
+</body>
+</html>
